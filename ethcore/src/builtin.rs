@@ -19,6 +19,10 @@ use crypto::sha2::Sha256;
 use crypto::ripemd160::Ripemd160;
 use crypto::digest::Digest;
 use ethjson;
+use ethabi;
+use tinysnark;
+use ethabi::spec::ParamType;
+use ethabi::Token;
 
 /// Definition of a contract whose implementation is built-in.
 pub struct Builtin {
@@ -85,6 +89,29 @@ pub fn copy_to(src: &[u8], dest: &mut[u8]) {
 /// TODO: turn in to a factory with dynamic registration.
 pub fn new_builtin_exec(name: &str) -> Box<Fn(&[u8], &mut [u8])> {
 	match name {
+        "zkSNARK" => Box::new(move|input: &[u8], output: &mut[u8]| {
+            let outlen = output.len();
+            for i in 0..output.len() {
+                output[i] = 0;
+            }
+            let abitype = [ParamType::Bytes, ParamType::Bytes, ParamType::Bytes];
+            let v = input[4..].to_vec();
+            let decode = ethabi::Decoder::decode(&abitype, v);
+            if let Ok(tokens) = decode {
+                if tokens.len() == 3 {
+                    if let Token::Bytes(ref v1) = tokens[0] {
+                        if let Token::Bytes(ref v2) = tokens[1] {
+                            if let Token::Bytes(ref v3) = tokens[2] {
+                                let res = tinysnark::snark_verify(v1, v2, v3);
+                                if res {
+                                    output[outlen - 1] = 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+		}),
 		"identity" => Box::new(move|input: &[u8], output: &mut[u8]| {
 			for i in 0..min(input.len(), output.len()) {
 				output[i] = input[i];

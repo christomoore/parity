@@ -40,6 +40,7 @@ ethcore-logger = { path = "logger" }
 json-ipc-server = { git = "https://github.com/ethcore/json-ipc-server.git" }
 ethcore-dapps = { path = "dapps", optional = true }
 clippy = { version = "0.0.79", optional = true}
+ethabi = { git = "https://github.com/gancherj/ethabi.git" }
 
 [target.'cfg(windows)'.dependencies]
 winapi = "0.2"
