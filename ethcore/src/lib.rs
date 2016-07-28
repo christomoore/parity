@@ -95,7 +95,7 @@ extern crate ethabi;
 extern crate rayon;
 extern crate hyper;
 extern crate ethash;
-extern crate tinysnark;
+extern crate hackishlibsnarkbindings;
 pub extern crate ethstore;
 extern crate semver;
 extern crate ethcore_ipc_nano as nanoipc;

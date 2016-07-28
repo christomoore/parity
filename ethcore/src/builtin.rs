@@ -20,7 +20,7 @@ use crypto::ripemd160::Ripemd160;
 use crypto::digest::Digest;
 use ethjson;
 use ethabi;
-use tinysnark;
+use hackishlibsnarkbindings;
 use ethabi::spec::ParamType;
 use ethabi::Token;
 
@@ -102,7 +102,7 @@ pub fn new_builtin_exec(name: &str) -> Box<Fn(&[u8], &mut [u8])> {
                     if let Token::Bytes(ref v1) = tokens[0] {
                         if let Token::Bytes(ref v2) = tokens[1] {
                             if let Token::Bytes(ref v3) = tokens[2] {
-                                let res = tinysnark::snark_verify(v1, v2, v3);
+                                let res = hackishlibsnarkbindings::snark_verify(v1, v2, v3);
                                 if res {
                                     output[outlen - 1] = 1;
                                 }

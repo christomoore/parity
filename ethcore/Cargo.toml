@@ -34,7 +34,7 @@ ethstore = { path = "../ethstore" }
 semver = "0.2"
 ethcore-ipc-nano = { path = "../ipc/nano" }
 ethabi = { git = "https://github.com/gancherj/ethabi.git" }
-tinysnark = { git = "https://github.com/ebfull/tinysnark.git" }
+hackishlibsnarkbindings = { git = "https://github.com/ebfull/hackishlibsnarkbindings.git" }
 
 [dependencies.hyper]
 git = "https://github.com/ethcore/hyper"
